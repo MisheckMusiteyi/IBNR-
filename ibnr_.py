@@ -214,10 +214,38 @@ st.markdown("""
         color: #FFFFFF;
     }
 
+    /* FILE UPLOADER FIX - Hide duplicate text */
     .stFileUploader {
         border: 2px dashed #D4AF37;
         border-radius: 5px;
         padding: 1rem;
+    }
+    .stFileUploader .e1ewe7hr3 {
+        display: none !important;
+    }
+    .stFileUploader .st-b7 {
+        display: none !important;
+    }
+    .stFileUploader .st-c0 {
+        display: none !important;
+    }
+    .stFileUploader .st-ae {
+        display: none !important;
+    }
+    .stFileUploader label {
+        display: none !important;
+    }
+    .stFileUploader button {
+        background-color: #D4AF37 !important;
+        color: #000000 !important;
+        border: none !important;
+        border-radius: 4px !important;
+        font-weight: bold !important;
+        padding: 0.5rem 1rem !important;
+    }
+    .stFileUploader button:hover {
+        background-color: #B8960F !important;
+        color: #FFFFFF !important;
     }
 
     .stMultiSelect [data-baseweb="select"],
@@ -309,7 +337,7 @@ ibnr_percentage = st.number_input(
 
 st.caption(f"Selected IBNR Percentage: {ibnr_percentage * 100:.2f}%")
 
-# File uploader (working version from Loss Component app)
+# File uploader
 uploaded_file = st.file_uploader("Choose an Excel file", type=["xlsx", "xls", "csv"])
 
 if uploaded_file is not None:
