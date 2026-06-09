@@ -220,7 +220,10 @@ st.markdown("""
         padding: 1rem;
     }
 
-    /* FIX: Remove the default label to prevent double "upload" text */
+    /* FIX: Remove duplicate "upload" text from file uploader */
+    .stFileUploader .e1ewe7hr3 {
+        display: none !important;
+    }
     .stFileUploader label {
         display: none !important;
     }
