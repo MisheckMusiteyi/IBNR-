@@ -8,7 +8,7 @@ import re
 
 st.set_page_config(page_title="IBNR Calculator:Percentage Method", layout="wide")
 
-# ---------- SIMPLE CUSTOM CSS ----------
+# ---------- CUSTOM CSS ----------
 st.markdown("""
 <style>
     /* Global font */
@@ -64,6 +64,28 @@ st.markdown("""
         margin: 0 auto;
     }
     
+    /* Gold containers for input sections */
+    .gold-container {
+        background-color: #F9F9F9;
+        border: 2px solid #D4AF37;
+        border-radius: 10px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .gold-container h3 {
+        color: #D4AF37;
+        margin-top: 0;
+        margin-bottom: 0.75rem;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+    .gold-container p {
+        color: #666666;
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem;
+    }
+    
     /* Buttons */
     .stButton > button {
         background-color: #D4AF37 !important;
@@ -75,6 +97,14 @@ st.markdown("""
     .stButton > button:hover {
         background-color: #B8960F !important;
         color: #FFFFFF !important;
+    }
+    
+    /* File uploader styling */
+    .stFileUploader {
+        border: 2px dashed #D4AF37;
+        border-radius: 10px;
+        padding: 1rem;
+        background-color: #F9F9F9;
     }
     
     /* Cards */
@@ -131,39 +161,64 @@ st.markdown("""
 # ---------- Main Content ----------
 st.markdown('<div class="main-container">', unsafe_allow_html=True)
 
-# User inputs
-col1, col2 = st.columns(2)
-with col1:
-    client_name = st.text_input("Client Name", value="Client").strip()
-with col2:
-    pass
+# Client name input
+st.markdown("""
+<div class="gold-container">
+    <h3>Client Information</h3>
+    <p>Enter a client name for file tracking</p>
+</div>
+""", unsafe_allow_html=True)
+client_name = st.text_input("Client Name", value="Client", label_visibility="collapsed").strip()
 
-# Date range
-st.subheader("IBNR Period")
+# IBNR Period Selection
+st.markdown("""
+<div class="gold-container">
+    <h3>IBNR Period</h3>
+    <p>Select the date range for premiums/claims to be included in the IBNR calculation</p>
+</div>
+""", unsafe_allow_html=True)
+
 col1, col2 = st.columns(2)
 with col1:
-    from_date = st.date_input("From Date", value=date(2020, 1, 1))
+    from_date = st.date_input("From Date", value=date(2020, 1, 1), label_visibility="collapsed")
+    st.caption("Start of period")
 with col2:
-    to_date = st.date_input("To Date", value=date(2024, 12, 31))
+    to_date = st.date_input("To Date", value=date(2024, 12, 31), label_visibility="collapsed")
+    st.caption("End of period")
 
 from_date = pd.to_datetime(from_date)
 to_date = pd.to_datetime(to_date)
 
 st.info(f"**Selected Period:** {from_date.date()} to {to_date.date()}")
 
-# Percentage input
-st.subheader("IBNR Percentage")
+# IBNR Percentage Input
+st.markdown("""
+<div class="gold-container">
+    <h3>IBNR Percentage</h3>
+    <p>Enter the percentage of premiums/claims to be reserved as IBNR</p>
+</div>
+""", unsafe_allow_html=True)
+
 ibnr_percentage = st.number_input(
     "Percentage (%)",
     min_value=0.0,
     max_value=100.0,
     value=10.0,
-    step=0.5
+    step=0.5,
+    label_visibility="collapsed"
 ) / 100
-st.caption(f"Selected: {ibnr_percentage * 100:.2f}%")
 
-# File uploader - SIMPLE VERSION
-uploaded_file = st.file_uploader("Upload your file", type=["csv", "xlsx", "xls"])
+st.caption(f"Selected IBNR Percentage: {ibnr_percentage * 100:.2f}%")
+
+# File uploader
+st.markdown("""
+<div class="gold-container">
+    <h3>Upload Data File</h3>
+    <p>Upload your premium/claims data (CSV or Excel format)</p>
+</div>
+""", unsafe_allow_html=True)
+
+uploaded_file = st.file_uploader("Choose a file", type=["csv", "xlsx", "xls"], label_visibility="collapsed")
 
 if uploaded_file is not None:
     try:
