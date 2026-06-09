@@ -220,6 +220,11 @@ st.markdown("""
         padding: 1rem;
     }
 
+    /* FIX: Remove the default label to prevent double "upload" text */
+    .stFileUploader label {
+        display: none !important;
+    }
+
     .stMultiSelect [data-baseweb="select"],
     .stSelectbox [data-baseweb="select"] {
         border: 1px solid #D4AF37;
