@@ -220,14 +220,6 @@ st.markdown("""
         padding: 1rem;
     }
 
-    /* FIX: Remove duplicate "upload" text from file uploader */
-    .stFileUploader .e1ewe7hr3 {
-        display: none !important;
-    }
-    .stFileUploader label {
-        display: none !important;
-    }
-
     .stMultiSelect [data-baseweb="select"],
     .stSelectbox [data-baseweb="select"] {
         border: 1px solid #D4AF37;
@@ -317,8 +309,8 @@ ibnr_percentage = st.number_input(
 
 st.caption(f"Selected IBNR Percentage: {ibnr_percentage * 100:.2f}%")
 
-# File uploader
-uploaded_file = st.file_uploader("Choose a file", type=["csv", "xlsx", "xls"])
+# File uploader (working version from Loss Component app)
+uploaded_file = st.file_uploader("Choose an Excel file", type=["xlsx", "xls", "csv"])
 
 if uploaded_file is not None:
     try:
@@ -345,9 +337,8 @@ if uploaded_file is not None:
             st.info(f"Dropped {len(unnamed)} unnamed column(s).")
 
         # Preview
-        st.markdown("#### Preview of uploaded data")
-        st.dataframe(df.head())
-        st.markdown("---")
+        with st.expander("Preview of uploaded data"):
+            st.dataframe(df.head())
 
         # --- Column Mapping Section ---
         st.markdown("### Map Your Columns to Required Fields")
@@ -367,8 +358,7 @@ if uploaded_file is not None:
             premium_date_col = st.selectbox(
                 "Select your Premium/Claim Date column",
                 options=[""] + all_columns,
-                key="premium_date",
-                label_visibility="collapsed"
+                key="premium_date"
             )
             if premium_date_col == "":
                 premium_date_col = None
@@ -383,8 +373,7 @@ if uploaded_file is not None:
             lob_col = st.selectbox(
                 "Select the Line of Business column",
                 options=[""] + all_columns,
-                key="lob",
-                label_visibility="collapsed"
+                key="lob"
             )
             if lob_col == "":
                 lob_col = None
